@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2210206690631759737}
   - component: {fileID: 5355990998199079804}
   - component: {fileID: 4110464790526721652}
+  - component: {fileID: 379602325169174755}
+  - component: {fileID: 7767215684397779836}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -92,3 +94,31 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &379602325169174755
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028351603845070429}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7767215684397779836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028351603845070429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890ccc86a8552284c94fd0a3f3b6e968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
