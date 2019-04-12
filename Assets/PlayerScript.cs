@@ -5,25 +5,20 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 
-    enum State
-    {
-        MoveNorth,
-        MoveSouth,
-        MoveWest,
-        MoveEast,
-        Wait
-    }
-
     public float speed = 15f;
 
-    private State state;
+    private float movementTimeStart;
+    private Vector3 source;
+    private Vector3 destination;
     private bool lockActivity;
 
     // Start is called before the first frame update
     void Start()
     {
-        state = State.Wait;
         lockActivity = false;
+        destination = transform.position;
+        source = transform.position;
+        movementTimeStart = Time.time;
     }
 
     private void Update()
@@ -31,15 +26,25 @@ public class PlayerScript : MonoBehaviour
         if (!lockActivity)
         {
             lockActivity = true;
+            source = transform.position;
+            movementTimeStart = Time.time;
 
             if (Input.GetKeyDown("w"))
-                state = State.MoveNorth;
+            {
+                destination = GameController.Move(transform.position, Vector2.up);
+            }
             else if (Input.GetKeyDown("s"))
-                state = State.MoveSouth;
+            {
+                destination = GameController.Move(transform.position, Vector2.down);
+            }
             else if (Input.GetKeyDown("a"))
-                state = State.MoveWest;
+            {
+                destination = GameController.Move(transform.position, Vector2.left);
+            }
             else if (Input.GetKeyDown("d"))
-                state = State.MoveEast;
+            {
+                destination = GameController.Move(transform.position, Vector2.right);
+            }
             else
                 lockActivity = false;
         }
@@ -47,31 +52,12 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        switch (state)
+        if (transform.position != destination)
         {
-            case State.MoveNorth:
-                transform.position += Vector3.forward * speed * Time.deltaTime; break;
-            case State.MoveSouth:
-                transform.position += Vector3.back * speed * Time.deltaTime; break;
-            case State.MoveEast:
-                transform.position += Vector3.right * speed * Time.deltaTime; break;
-            case State.MoveWest:
-                transform.position += Vector3.left * speed * Time.deltaTime; break;
+            float distanceCovered = (Time.time - movementTimeStart) * speed;
+            transform.position = Vector3.Lerp(source, destination, distanceCovered / Vector3.Distance(source, destination));
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Obstacle")
-        {
-            float fix = 0f;
-            if (state == State.MoveEast || state == State.MoveNorth)
-                fix = 0.5f;
-            Debug.Log("Positions:\nx: " + transform.position.x + " y: " + transform.position.y + " z: " + transform.position.z);
-            Debug.Log("Collided.");
-            state = State.Wait;
-            transform.position = new Vector3(Mathf.Round(transform.position.x - 0.1f - fix) + 0.5f, transform.position.y, Mathf.Round(transform.position.z - 0.1f - fix) + 0.5f);
+        else
             lockActivity = false;
-        }
     }
 }
