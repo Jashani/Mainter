@@ -18,7 +18,6 @@ public class PlayerScript : MonoBehaviour
 
     private State state;
     private bool lockActivity;
-    private float currentSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -27,30 +26,35 @@ public class PlayerScript : MonoBehaviour
         lockActivity = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!lockActivity)
         {
-            if (Input.GetKeyDown("w"))
-            { state = State.MoveNorth; lockActivity = true; }
-            else if (Input.GetKeyDown("s"))
-            { state = State.MoveSouth; lockActivity = true; }
-            else if (Input.GetKeyDown("a"))
-            { state = State.MoveWest; lockActivity = true; }
-            else if (Input.GetKeyDown("d"))
-            { state = State.MoveEast; lockActivity = true; }
-        }
-        
-        if (state == State.MoveNorth)
-            transform.position += Vector3.forward * speed * Time.deltaTime;
-        else if(state == State.MoveSouth)
-            transform.position += Vector3.back * speed * Time.deltaTime;
-        else if (state == State.MoveWest)
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        else if (state == State.MoveEast)
-            transform.position += Vector3.right * speed * Time.deltaTime;
+            lockActivity = true;
 
+            if (Input.GetKeyDown("w"))
+                state = State.MoveNorth;
+            else if (Input.GetKeyDown("s"))
+                state = State.MoveSouth;
+            else if (Input.GetKeyDown("a"))
+                state = State.MoveWest;
+            else if (Input.GetKeyDown("d"))
+                state = State.MoveEast;
+            else
+                lockActivity = false;
+        }
+
+        switch (state)
+        {
+            case State.MoveNorth:
+                transform.position += Vector3.forward * speed * Time.deltaTime; break;
+            case State.MoveSouth:
+                transform.position += Vector3.back * speed * Time.deltaTime; break;
+            case State.MoveEast:
+                transform.position += Vector3.right * speed * Time.deltaTime; break;
+            case State.MoveWest:
+                transform.position += Vector3.left * speed * Time.deltaTime; break;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
