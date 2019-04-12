@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
         lockActivity = false;
     }
 
-    void FixedUpdate()
+    private void Update()
     {
         if (!lockActivity)
         {
@@ -43,7 +43,10 @@ public class PlayerScript : MonoBehaviour
             else
                 lockActivity = false;
         }
+    }
 
+    void FixedUpdate()
+    {
         switch (state)
         {
             case State.MoveNorth:
