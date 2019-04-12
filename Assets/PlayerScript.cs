@@ -62,13 +62,16 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        float fix = 0f;
-        if (state == State.MoveEast || state == State.MoveNorth)
-            fix = 0.5f;
-        Debug.Log("Positions:\nx: " + transform.position.x + " y: " + transform.position.y + " z: " + transform.position.z);
-        Debug.Log("Collided.");
-        state = State.Wait;
-        transform.position = new Vector3(Mathf.Round(transform.position.x - 0.1f - fix) + 0.5f, transform.position.y, Mathf.Round(transform.position.z - 0.1f - fix) + 0.5f);
-        lockActivity = false;
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            float fix = 0f;
+            if (state == State.MoveEast || state == State.MoveNorth)
+                fix = 0.5f;
+            Debug.Log("Positions:\nx: " + transform.position.x + " y: " + transform.position.y + " z: " + transform.position.z);
+            Debug.Log("Collided.");
+            state = State.Wait;
+            transform.position = new Vector3(Mathf.Round(transform.position.x - 0.1f - fix) + 0.5f, transform.position.y, Mathf.Round(transform.position.z - 0.1f - fix) + 0.5f);
+            lockActivity = false;
+        }
     }
 }
