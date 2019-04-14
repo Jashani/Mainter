@@ -13,32 +13,35 @@ public class GameController : MonoBehaviour
     }
 
     private const int MAX_SIZE = 12;
-    public static int[,] field = {{1,1,1,1,1,1,1,1,1,1,1,1},
-{1,2,2,1,2,2,2,2,1,2,2,1},
-{1,2,2,2,2,2,2,2,1,2,2,1},
-{1,2,2,2,2,2,2,2,2,2,2,1},
-{1,1,2,2,2,2,2,2,2,2,2,1},
-{1,2,2,2,1,2,2,2,2,2,2,1},
-{1,2,2,1,1,1,1,1,1,1,2,1},
-{1,2,2,2,1,2,2,2,2,2,2,1},
-{1,2,2,2,1,2,2,2,2,2,2,1},
-{1,2,2,2,1,2,2,2,2,2,2,1},
-{1,2,2,2,1,2,2,2,2,2,2,1},
-{1,1,1,1,1,1,1,1,1,1,1,1}};
+    public static int[,] field = 
+        {{1,1,1,1,1,1,1,1,1,1,1,1},
+        {1,2,2,1,2,2,2,2,1,2,2,1},
+        {1,2,2,2,2,2,2,2,1,2,2,1},
+        {1,2,2,2,2,2,2,2,2,2,2,1},
+        {1,1,2,2,2,2,2,2,2,2,2,1},
+        {1,2,2,2,1,2,2,2,2,2,2,1},
+        {1,2,2,1,1,1,1,1,1,1,2,1},
+        {1,2,2,2,1,2,2,2,2,2,2,1},
+        {1,2,2,2,1,2,2,2,2,2,2,1},
+        {1,2,2,2,1,2,2,2,2,2,2,1},
+        {1,2,2,2,1,2,2,2,2,2,2,1},
+        {1,1,1,1,1,1,1,1,1,1,1,1}};
 
     public static Vector3 Move(Vector3 src, Vector2 direction)
     {
-        Vector2 dst = new Vector2(src.x - 0.5f, src.z - 0.5f);
+        Vector2 dst = new Vector2(src.x + 0.5f, src.z + 0.5f);
 
         while (dst.x < MAX_SIZE && dst.y < MAX_SIZE)
         {
-            dst += direction;
             if (field[MAX_SIZE-(int)dst.y - 1, (int)dst.x] == (int)Tile.Wall)
                 break;
+            dst += direction;
         }
 
+        Vector2 ret = dst - direction;
         dst -= direction;
-        return new Vector3(dst.x + 0.5f, src.y, dst.y + 0.5f);
+
+        return new Vector3(ret.x - 0.5f, src.y, ret.y - 0.5f);
     }
     // Start is called before the first frame update
     void Start()
